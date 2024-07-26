@@ -1,0 +1,23 @@
+---
+- hosts: haproxy_target
+  become: yes
+  tasks:
+    - name: Install HAProxy
+      apt:
+        name: haproxy
+        state: present
+
+    - name: Configure HAProxy
+      copy:
+        src: /path/to/local/haproxy.cfg
+        dest: /etc/haproxy/haproxy.cfg
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Enable and start HAProxy service
+      systemd:
+        name: haproxy
+        enabled: yes
+        state: started
+
